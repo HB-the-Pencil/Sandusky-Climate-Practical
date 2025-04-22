@@ -15,8 +15,12 @@ p {
     font-size: 16px;
 }
 
+#heading {
+    margin: 20px;
+}
+
 #main {
-    margin: 5px;
+    margin: 20px;
     padding: 10px;
     background: rgba(240, 240, 240, 1.0);
     border: 2px solid;
