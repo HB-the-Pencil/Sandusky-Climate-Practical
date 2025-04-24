@@ -11,6 +11,10 @@ h1 {
     font-size: 20px;
 }
 
+h2 {
+    font-size: 18px;
+}
+
 p {
     font-size: 16px;
 }
@@ -33,6 +37,11 @@ p {
     background: rgba(240, 240, 220, 1.0);
     border: 2px dashed;
     border-color: rgba(0, 0, 0, 1);
+}
+
+#sources {
+    font-size: 10px;
+    font-color: rgba(100, 100, 100, 1);
 }
 
 a {
