@@ -47,8 +47,6 @@ for row in reader:
 average_x = []
 average_y = []
 
-print(count_per_day_hour)
-
 for day_hour, humidity_list in humidity_sum.items():
     average_x.append(day_hour)
     average_y.append(sum(humidity_list) / count_per_day_hour[day_hour])
@@ -58,8 +56,6 @@ label_to_year = {v: k for k, v in year_to_label.items()}
 traces = []
 
 for label, data in lines.items():
-    print('hello')
-    print(len(data['y']))
     trace = {
         "type": 'scatter',
         'mode': 'lines',
@@ -78,7 +74,6 @@ average_trace = {
     'line': {'width': 4, 'color': 'black', 'dash': 'solid'},
 }
 traces.append(average_trace)
-print(traces)
 
 fig = go.Figure(data=traces)
 fig.update_layout(
