@@ -18,58 +18,45 @@ df["hour_day"] = df["day"] + df["date"].dt.hour / 24
 # Year as string for discrete data plotting.
 df["year"] = df["year"].astype(str)
 
-plot_dict = {
-    year: df[df["year"] == year].reset_index()
-    for year in df["year"].unique()
-}
+# Drop null data.
+df.dropna()
+df["wspd"] = df["wspd"].astype(float)
 
-for frame in plot_dict:
-    plot_dict[frame].dropna()
-    plot_dict[frame]["wspd"] = plot_dict[frame]["wspd"].astype(float)
-
+# Create an average list
 avg = df.groupby("hour_day")[["wspd", "wdir"]].mean()
 
 fig = px.line(
-    avg,
-    x=avg.index,
+    df,
+    x="hour_day",
     y="wspd",
-    title="Wind Speed and Wind Direction in Sandusky, OH Past 10 Years",
-    labels={
-        "hour_day": "Day (in July)",
-        "wspd": "Wind Speed (mph)",
-    },
+    color="year",
+    color_discrete_sequence=px.colors.qualitative.Pastel
 )
 
 fig.update_traces(
-    line=dict(color="black", width=4),
     mode="lines+markers",
     marker=dict(
-        size=20,
+        size=10,
         symbol="arrow",
-        angle=avg["wdir"],
+        angle=df["wdir"]
     ),
-    zorder=1,
-    name="Average Wind Speed"
 )
 
-for key in plot_dict:
-    fig.add_scatter(
-        x=plot_dict[key]["hour_day"],
-        y=plot_dict[key]["wspd"],
-        marker=dict(
-            size=10,
-            symbol="arrow",
-            angle=plot_dict[key]["wdir"],
-        ),
-        connectgaps=True,
-        mode="lines+markers",
-        name=key,
-        zorder=0,
-    )
+fig.add_scattergl(
+    x=avg.index,
+    y=avg["wspd"],
+    line=dict(width=4, color="black"),
+    marker=dict(
+        symbol="arrow",
+        size=20,
+        angle=avg["wdir"],
+    ),
+    mode="lines+markers",
+    name="Average Wind Speed",
+)
 
-fig.update_xaxes(range=[18, 23], fixedrange=True)
-fig.update_yaxes(range=[df["wspd"].min(), df["wspd"].max() + 1],
-                 fixedrange=True)
+fig.update_xaxes(range=[18, 23])
+fig.update_yaxes(range=[df["wspd"].min(), df["wspd"].max() + 1],)
 
 fig.write_html("wind_direction.html")
 fig.show()
