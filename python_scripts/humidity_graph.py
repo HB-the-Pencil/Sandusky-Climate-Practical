@@ -4,7 +4,7 @@ from datetime import datetime
 import plotly.graph_objects as go
 from collections import defaultdict
 
-path = Path('weather_data/filtered_output.csv')
+path = Path('weather_data/humidity_data.csv')
 lines = path.read_text().splitlines()
 
 reader = csv.reader(lines)
